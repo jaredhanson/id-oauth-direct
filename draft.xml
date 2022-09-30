@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<rfc
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  submissionType="IETF"
+  category="info"
+  ipr="trust200902">
+  <front>
+    <title>OAuth 2.0 Direct Authentication</title>
+    <seriesInfo name="Internet-Draft" value="draft-hanson-oauth-direct-00"/>
+    <author fullname="Jared Hanson" initials="J. Hanson" surname="Hanson">
+    </author>
+    
+    <abstract>
+      <t>This specification defines extensions to OAuth 2.0 that improve its
+        suitabilty for use in situations where clients require direct access to
+        resource owner credentials.</t>
+    </abstract>
+   </front>
+  
+  <middle>
+    <section>
+      <name>Introduction</name>
+      <t><xref target="RFC6749">OAuth 2.0</xref> is an authorization framework
+        that enables an application to obtain limited access to a protected HTTP
+        resource.  In OAuth, those applications are called clients; they access
+        protected resources by presenting an access token to the HTTP resource.
+        Access tokens are issued to clients by an authorization server with the
+        (sometimes implicit) approval of the resource owner.  These access
+        tokens are typically obtained by exchanging an authorization grant,
+        which represents the authorization granted by the resource owner (or by
+        a privileged administrator).  Several authorization grant types are
+        defined to support a wide range of client types and user
+        experiences.</t>
+      
+      <t>The preferred way to request authorization is by using the
+        authorization server as an intermediary between the client and resource
+        owner.  Flows that use the authorization server as an intermediary make
+        extensive use of HTTP redirections, requiring interacion with the
+        resource owner's user-agent (typically a web browser).</t>
+        
+      <t>Alternatively, authorization can be requested directly from the
+        resource owner.  Such flows require direct client access to the resource
+        owner credentials, which are exchanged for an access token.  These flows
+        should only be used when there is a high degree of trust between the
+        resource owner and the client (e.g., the client is part of the device
+        operating system or a highly privileged application).</t>
+        
+      <t>When using the authorization server as an intermediary, the
+        authorization process is delegated to the authorization server.  This
+        process is often used as a form of delegated end-user authentication as
+        well.  Delegation in this manner is particularly well-suited to web
+        applications.  It is also a best practice for native apps, known as the
+        "AppAuth pattern" as detailed by <xref target="RFC8252">OAuth 2.0 for
+        Native Apps</xref>.</t>
+        
+      <t>Despite the recommendations, experience indicates that many developers
+        of native apps are hesistant mix web-based and native UIs, often due to
+        concerns regarding the percieved negative impact on user experience.
+        This results in applications that do not delegate to the authorization
+        server, and instead directly handle end-user credentials.  The
+        credentials are often verified using a mechanism proprietary to the
+        application.</t>
+        
+      <t>In the case of passwords, these credentials may be verified using OAuth
+        2.0 and the resource owner password credentials grant.  However, <xref target="I-D.ietf-oauth-security-topics" section="2.4">OAuth 2.0 Security Best
+        Current Practice</xref> states that this grant MUST NOT be used, due
+        to the fact that exposing the credentials of the end-user to the client
+        is a security concern.</t>
+        
+      <t>This specification, along with companion documents, defines extensions
+        to OAuth 2.0 that improve its suitabilty for use in situations where
+        clients require direct access to resource owner credentials.  The result
+        is a framework similar to <xref target="RFC4422">Simple Authentication and Security Layer
+        (SASL)</xref>, but intended to be used by applications accessing
+        protected resources via HTTP rather than a connection-oriented protocol.
+      </t>
+        
+      <t>WIP: Discuss how these are all extensions to the token endpoint, as authorize
+        endpoint is used for delegated authorization</t>
+        
+      <t>WIP: Discuss delegated authorization vs direct authentication.  Delegated
+        authorization verifies the authenticaiton performed by the AS.  Direct
+        authenticaiton allows the client to perform authentication directly</t>
+    </section>
+    
+    <section>
+      <name>Capability Negotiation</name>
+      
+      <section>
+        <name>Access Token Request</name>
+        
+        <t>The client informs the authorization server of its capabilities by adding
+          the following parameters in requests to the token endpoint:</t>
+        <dl newline="true">
+          <dt>grant_types_supported</dt>
+          <dd>OPTIONAL.  Array of OAuth 2.0 grant type strings that the client can
+            use at the token endpoint, expressed as a list of space- delimited, strings.
+            The array values used are the same as
+            those used with the "grant_types" parameter defined by "OAuth 2.0 Dynamic
+            Client Registration Protocol" [RFC7591].</dd>
+          <dt>software_id</dt>
+          <dd>OPTIONAL.  A unique identifier string assigned by the client
+            developer or software publisher used to identify the client software, as
+            defined by "OAuth 2.0 Dynamic Client Registration Protocol" [RFC7591].</dd>
+          <dt>software_version</dt>
+          <dd>OPTIONAL.  A version identifier string for the client software identified
+            by "software_id", , as
+            defined by "OAuth 2.0 Dynamic Client Registration Protocol" [RFC7591].</dd>
+        </dl>
+        <t>For example, the client makes the following HTTPS request (line breaks
+          are for display purposes only):</t>
+        <figure>
+        <artwork><![CDATA[
+POST /token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=johndoe&password=A3ddj3w
+&client_id=s6BhdRkqt3
+&grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
+]]></artwork>
+        </figure>
+      </section>
+      
+      <section>
+        <name>Access Token Response</name>
+        
+        <t>If the token request is valid and authorized, the server...</t>
+      
+        <t>An example response indicating that multi-factor authentication (MFA)
+          is required and the client may proceed by responding to a challenge
+          using one the the supported grant types that was negotiated:</t>
+        <figure>
+          <artwork><![CDATA[
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+  Cache-Control: no-store
+  Pragma: no-cache
+
+  {
+    "error":"mfa_required",
+    "error_description":"Requested scope requires MFA",
+    "mfa_token":"8BykJh3Lz7zxz67hFi2esTthfq4k38ff"
+  }
+  ]]></artwork>
+        </figure>
+      
+        <t>An example response indicating that access is denied and the client is
+          unable to proceed as required grant types are unsupported:</t>
+        <figure>
+          <artwork><![CDATA[
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+  "error":"access_denied",
+  "error_description":"Required authentication methods not
+supported by client"
+}
+]]></artwork>
+        </figure>
+        
+      </section>
+    </section>
+    
+    <section anchor="Security">
+      <!-- All drafts are required to have a security considerations section. See RFC 3552 for a guide. -->
+      <name>Security Considerations</name>
+      <t>This document should not affect the security of the Internet. [CHECK]</t>
+    </section>
+    
+    <section anchor="IANA">
+    <!-- All drafts are required to have an IANA considerations section. See RFC 8126 for a guide.-->
+      <name>IANA Considerations</name>
+      <t>This memo includes no request to IANA. [CHECK]</t>
+    </section>
+  </middle>
+
+  <back>
+    <references>
+      <name>References</name>
+      <references>
+        <name>Normative References</name>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6749.xml"/>
+      </references>
+      <references>
+        <name>Informative References</name>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8252.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-security-topics.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4422.xml"/>
+      </references>
+    </references>
+ </back>
+</rfc>

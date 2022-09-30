@@ -1,0 +1,336 @@
+
+
+
+
+Network Working Group                                  J. Hanson. Hanson
+Internet-Draft                                         30 September 2022
+Intended status: Informational                                          
+Expires: 3 April 2023
+
+
+                    OAuth 2.0 Direct Authentication
+
+Abstract
+
+   This specification defines extensions to OAuth 2.0 that improve its
+   suitabilty for use in situations where clients require direct access
+   to resource owner credentials.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 3 April 2023.
+
+Copyright Notice
+
+   Copyright (c) 2022 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+
+
+
+
+
+
+Hanson                    Expires 3 April 2023                  [Page 1]
+
+Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Capability Negotiation  . . . . . . . . . . . . . . . . . . .   3
+     2.1.  Access Token Request  . . . . . . . . . . . . . . . . . .   3
+     2.2.  Access Token Response . . . . . . . . . . . . . . . . . .   4
+   3.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .   5
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
+
+1.  Introduction
+
+   OAuth 2.0 [RFC6749] is an authorization framework that enables an
+   application to obtain limited access to a protected HTTP resource.
+   In OAuth, those applications are called clients; they access
+   protected resources by presenting an access token to the HTTP
+   resource.  Access tokens are issued to clients by an authorization
+   server with the (sometimes implicit) approval of the resource owner.
+   These access tokens are typically obtained by exchanging an
+   authorization grant, which represents the authorization granted by
+   the resource owner (or by a privileged administrator).  Several
+   authorization grant types are defined to support a wide range of
+   client types and user experiences.
+
+   The preferred way to request authorization is by using the
+   authorization server as an intermediary between the client and
+   resource owner.  Flows that use the authorization server as an
+   intermediary make extensive use of HTTP redirections, requiring
+   interacion with the resource owner's user-agent (typically a web
+   browser).
+
+   Alternatively, authorization can be requested directly from the
+   resource owner.  Such flows require direct client access to the
+   resource owner credentials, which are exchanged for an access token.
+   These flows should only be used when there is a high degree of trust
+   between the resource owner and the client (e.g., the client is part
+   of the device operating system or a highly privileged application).
+
+   When using the authorization server as an intermediary, the
+   authorization process is delegated to the authorization server.  This
+   process is often used as a form of delegated end-user authentication
+   as well.  Delegation in this manner is particularly well-suited to
+   web applications.  It is also a best practice for native apps, known
+   as the "AppAuth pattern" as detailed by OAuth 2.0 for Native Apps
+   [RFC8252].
+
+
+
+Hanson                    Expires 3 April 2023                  [Page 2]
+
+Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+
+
+   Despite the recommendations, experience indicates that many
+   developers of native apps are hesistant mix web-based and native UIs,
+   often due to concerns regarding the percieved negative impact on user
+   experience.  This results in applications that do not delegate to the
+   authorization server, and instead directly handle end-user
+   credentials.  The credentials are often verified using a mechanism
+   proprietary to the application.
+
+   In the case of passwords, these credentials may be verified using
+   OAuth 2.0 and the resource owner password credentials grant.
+   However, Section 2.4 of OAuth 2.0 Security Best Current Practice
+   [I-D.ietf-oauth-security-topics] states that this grant MUST NOT be
+   used, due to the fact that exposing the credentials of the end-user
+   to the client is a security concern.
+
+   This specification, along with companion documents, defines
+   extensions to OAuth 2.0 that improve its suitabilty for use in
+   situations where clients require direct access to resource owner
+   credentials.  The result is a framework similar to Simple
+   Authentication and Security Layer (SASL) [RFC4422], but intended to
+   be used by applications accessing protected resources via HTTP rather
+   than a connection-oriented protocol.
+
+   WIP: Discuss how these are all extensions to the token endpoint, as
+   authorize endpoint is used for delegated authorization
+
+   WIP: Discuss delegated authorization vs direct authentication.
+   Delegated authorization verifies the authenticaiton performed by the
+   AS.  Direct authenticaiton allows the client to perform
+   authentication directly
+
+2.  Capability Negotiation
+
+2.1.  Access Token Request
+
+   The client informs the authorization server of its capabilities by
+   adding the following parameters in requests to the token endpoint:
+
+   grant_types_supported
+      OPTIONAL.  Array of OAuth 2.0 grant type strings that the client
+      can use at the token endpoint, expressed as a list of space-
+      delimited, strings.  The array values used are the same as those
+      used with the "grant_types" parameter defined by "OAuth 2.0
+      Dynamic Client Registration Protocol" [RFC7591].
+
+
+
+
+
+
+
+Hanson                    Expires 3 April 2023                  [Page 3]
+
+Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+
+
+   software_id
+      OPTIONAL.  A unique identifier string assigned by the client
+      developer or software publisher used to identify the client
+      software, as defined by "OAuth 2.0 Dynamic Client Registration
+      Protocol" [RFC7591].
+
+   software_version
+      OPTIONAL.  A version identifier string for the client software
+      identified by "software_id", , as defined by "OAuth 2.0 Dynamic
+      Client Registration Protocol" [RFC7591].
+
+   For example, the client makes the following HTTPS request (line
+   breaks are for display purposes only):
+
+POST /token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=johndoe&password=A3ddj3w
+&client_id=s6BhdRkqt3
+&grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
+
+2.2.  Access Token Response
+
+   If the token request is valid and authorized, the server...
+
+   An example response indicating that multi-factor authentication (MFA)
+   is required and the client may proceed by responding to a challenge
+   using one the the supported grant types that was negotiated:
+
+     HTTP/1.1 200 OK
+     Content-Type: application/json;charset=UTF-8
+     Cache-Control: no-store
+     Pragma: no-cache
+
+     {
+       "error":"mfa_required",
+       "error_description":"Requested scope requires MFA",
+       "mfa_token":"8BykJh3Lz7zxz67hFi2esTthfq4k38ff"
+     }
+
+   An example response indicating that access is denied and the client
+   is unable to proceed as required grant types are unsupported:
+
+
+
+
+
+
+
+
+Hanson                    Expires 3 April 2023                  [Page 4]
+
+Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+
+
+   HTTP/1.1 200 OK
+   Content-Type: application/json;charset=UTF-8
+   Cache-Control: no-store
+   Pragma: no-cache
+
+   {
+     "error":"access_denied",
+     "error_description":"Required authentication methods not
+   supported by client"
+   }
+
+3.  Security Considerations
+
+   This document should not affect the security of the Internet.
+   [CHECK]
+
+4.  IANA Considerations
+
+   This memo includes no request to IANA.  [CHECK]
+
+5.  References
+
+5.1.  Normative References
+
+   [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
+              RFC 6749, DOI 10.17487/RFC6749, October 2012,
+              <https://www.rfc-editor.org/info/rfc6749>.
+
+5.2.  Informative References
+
+   [RFC8252]  Denniss, W. and J. Bradley, "OAuth 2.0 for Native Apps",
+              BCP 212, RFC 8252, DOI 10.17487/RFC8252, October 2017,
+              <https://www.rfc-editor.org/info/rfc8252>.
+
+   [I-D.ietf-oauth-security-topics]
+              Lodderstedt, T., Bradley, J., Labunets, A., and D. Fett,
+              "OAuth 2.0 Security Best Current Practice", Work in
+              Progress, Internet-Draft, draft-ietf-oauth-security-
+              topics-21, 27 September 2022,
+              <https://www.ietf.org/archive/id/draft-ietf-oauth-
+              security-topics-21.txt>.
+
+   [RFC4422]  Melnikov, A., Ed. and K. Zeilenga, Ed., "Simple
+              Authentication and Security Layer (SASL)", RFC 4422,
+              DOI 10.17487/RFC4422, June 2006,
+              <https://www.rfc-editor.org/info/rfc4422>.
+
+
+
+
+
+Hanson                    Expires 3 April 2023                  [Page 5]
+
+Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+
+
+Author's Address
+
+   Jared Hanson
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hanson                    Expires 3 April 2023                  [Page 6]
