@@ -3,9 +3,9 @@
 
 
 Network Working Group                                  J. Hanson. Hanson
-Internet-Draft                                         30 September 2022
+Internet-Draft                                            3 October 2022
 Intended status: Informational                                          
-Expires: 3 April 2023
+Expires: 6 April 2023
 
 
                     OAuth 2.0 Direct Authentication
@@ -31,7 +31,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 April 2023.
+   This Internet-Draft will expire on 6 April 2023.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Hanson                    Expires 3 April 2023                  [Page 1]
+Hanson                    Expires 6 April 2023                  [Page 1]
 
-Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 Table of Contents
@@ -104,14 +104,14 @@ Table of Contents
    process is often used as a form of delegated end-user authentication
    as well.  Delegation in this manner is particularly well-suited to
    web applications.  It is also a best practice for native apps, known
-   as the "AppAuth pattern" as detailed by OAuth 2.0 for Native Apps
-   [RFC8252].
+   as the "AppAuth [AppAuth] pattern" as detailed by OAuth 2.0 for
+   Native Apps [RFC8252].
 
 
 
-Hanson                    Expires 3 April 2023                  [Page 2]
+Hanson                    Expires 6 April 2023                  [Page 2]
 
-Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
    Despite the recommendations, experience indicates that many
@@ -165,9 +165,9 @@ Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
 
 
 
-Hanson                    Expires 3 April 2023                  [Page 3]
+Hanson                    Expires 6 April 2023                  [Page 3]
 
-Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
    software_id
@@ -221,9 +221,9 @@ grant_type=password&username=johndoe&password=A3ddj3w
 
 
 
-Hanson                    Expires 3 April 2023                  [Page 4]
+Hanson                    Expires 6 April 2023                  [Page 4]
 
-Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
    HTTP/1.1 200 OK
@@ -273,13 +273,13 @@ Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
               DOI 10.17487/RFC4422, June 2006,
               <https://www.rfc-editor.org/info/rfc4422>.
 
+   [AppAuth]  Denniss, W., "AppAuth", <https://appauth.io>.
 
 
 
-
-Hanson                    Expires 3 April 2023                  [Page 5]
+Hanson                    Expires 6 April 2023                  [Page 5]
 
-Internet-Draft       OAuth 2.0 Direct Authentication      September 2022
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 Author's Address
@@ -333,4 +333,4 @@ Author's Address
 
 
 
-Hanson                    Expires 3 April 2023                  [Page 6]
+Hanson                    Expires 6 April 2023                  [Page 6]

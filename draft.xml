@@ -51,8 +51,8 @@
         process is often used as a form of delegated end-user authentication as
         well.  Delegation in this manner is particularly well-suited to web
         applications.  It is also a best practice for native apps, known as the
-        "AppAuth pattern" as detailed by <xref target="RFC8252">OAuth 2.0 for
-        Native Apps</xref>.</t>
+        "<xref target="AppAuth">AppAuth</xref> pattern" as detailed by
+        <xref target="RFC8252">OAuth 2.0 for Native Apps</xref>.</t>
         
       <t>Despite the recommendations, experience indicates that many developers
         of native apps are hesistant mix web-based and native UIs, often due to
@@ -191,6 +191,14 @@ supported by client"
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8252.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-security-topics.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.4422.xml"/>
+        <reference anchor="AppAuth" target="https://appauth.io">
+          <front>
+            <title>AppAuth</title>
+            <author fullname="William Denniss" surname="Denniss" initials="W.">
+              <organization>Google</organization>
+            </author>
+          </front>
+        </reference>
       </references>
     </references>
  </back>
