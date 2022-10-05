@@ -21,6 +21,7 @@
   <middle>
     <section>
       <name>Introduction</name>
+      
       <t><xref target="RFC6749">OAuth 2.0</xref> is an authorization framework
         that enables an application to obtain limited access to a protected HTTP
         resource.  In OAuth, those applications are called clients; they access
@@ -71,10 +72,10 @@
       <t>This specification, along with companion documents, defines extensions
         to OAuth 2.0 that improve its suitabilty for use in situations where
         clients require direct access to resource owner credentials.  The result
-        is a framework similar to <xref target="RFC4422">Simple Authentication and Security Layer
-        (SASL)</xref>, but intended to be used by applications accessing
-        protected resources via HTTP rather than a connection-oriented protocol.
-      </t>
+        is a framework similar to <xref target="RFC4422">Simple Authentication
+        and Security Layer (SASL)</xref>, but intended to be used by
+        applications accessing protected resources via HTTP rather than a
+        connection-oriented protocol.</t>
         
       <t>WIP: Discuss how these are all extensions to the token endpoint, as authorize
         endpoint is used for delegated authorization</t>
@@ -86,6 +87,29 @@
     
     <section>
       <name>Capability Negotiation</name>
+      
+      <section>
+        <name>Server Capabilities</name>
+        
+        <t>The authorization server advertises supported grant types using the
+          <tt>grant_types_supported</tt> metadata defined by
+          <xref target="RFC8414">OAuth 2.0 Authorization Server
+          Metadata</xref>.</t>
+          
+        <t>For example:</t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "issuer": "https://server.example.com",
+  "token_endpoint":
+    "https://server.example.com/token",
+  "grant_types_supported":
+    ["password", "http://auth0.com/oauth/grant-type/mfa-otp"]
+}
+]]></artwork>
+        </figure>
+      </section>
+      
       
       <section>
         <name>Access Token Request</name>
@@ -185,6 +209,7 @@ supported by client"
       <references>
         <name>Normative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6749.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8414.xml"/>
       </references>
       <references>
         <name>Informative References</name>

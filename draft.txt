@@ -62,13 +62,14 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Capability Negotiation  . . . . . . . . . . . . . . . . . . .   3
-     2.1.  Access Token Request  . . . . . . . . . . . . . . . . . .   3
-     2.2.  Access Token Response . . . . . . . . . . . . . . . . . .   4
+     2.1.  Server Capabilities . . . . . . . . . . . . . . . . . . .   3
+     2.2.  Access Token Request  . . . . . . . . . . . . . . . . . .   4
+     2.3.  Access Token Response . . . . . . . . . . . . . . . . . .   4
    3.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
    4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
    5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
      5.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
-     5.2.  Informative References  . . . . . . . . . . . . . . . . .   5
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .   6
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
@@ -99,13 +100,12 @@ Table of Contents
    between the resource owner and the client (e.g., the client is part
    of the device operating system or a highly privileged application).
 
-   When using the authorization server as an intermediary, the
-   authorization process is delegated to the authorization server.  This
-   process is often used as a form of delegated end-user authentication
-   as well.  Delegation in this manner is particularly well-suited to
-   web applications.  It is also a best practice for native apps, known
-   as the "AppAuth [AppAuth] pattern" as detailed by OAuth 2.0 for
-   Native Apps [RFC8252].
+
+
+
+
+
+
 
 
 
@@ -113,6 +113,14 @@ Hanson                    Expires 6 April 2023                  [Page 2]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
+
+   When using the authorization server as an intermediary, the
+   authorization process is delegated to the authorization server.  This
+   process is often used as a form of delegated end-user authentication
+   as well.  Delegation in this manner is particularly well-suited to
+   web applications.  It is also a best practice for native apps, known
+   as the "AppAuth [AppAuth] pattern" as detailed by OAuth 2.0 for
+   Native Apps [RFC8252].
 
    Despite the recommendations, experience indicates that many
    developers of native apps are hesistant mix web-based and native UIs,
@@ -147,7 +155,30 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 2.  Capability Negotiation
 
-2.1.  Access Token Request
+2.1.  Server Capabilities
+
+   The authorization server advertises supported grant types using the
+   grant_types_supported metadata defined by OAuth 2.0 Authorization
+   Server Metadata [RFC8414].
+
+   For example:
+
+
+
+Hanson                    Expires 6 April 2023                  [Page 3]
+
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
+
+
+   {
+     "issuer": "https://server.example.com",
+     "token_endpoint":
+       "https://server.example.com/token",
+     "grant_types_supported":
+       ["password", "http://auth0.com/oauth/grant-type/mfa-otp"]
+   }
+
+2.2.  Access Token Request
 
    The client informs the authorization server of its capabilities by
    adding the following parameters in requests to the token endpoint:
@@ -158,17 +189,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
       delimited, strings.  The array values used are the same as those
       used with the "grant_types" parameter defined by "OAuth 2.0
       Dynamic Client Registration Protocol" [RFC7591].
-
-
-
-
-
-
-
-Hanson                    Expires 6 April 2023                  [Page 3]
-
-Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
-
 
    software_id
       OPTIONAL.  A unique identifier string assigned by the client
@@ -192,9 +212,19 @@ grant_type=password&username=johndoe&password=A3ddj3w
 &client_id=s6BhdRkqt3
 &grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
 
-2.2.  Access Token Response
+2.3.  Access Token Response
 
    If the token request is valid and authorized, the server...
+
+
+
+
+
+
+Hanson                    Expires 6 April 2023                  [Page 4]
+
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
+
 
    An example response indicating that multi-factor authentication (MFA)
    is required and the client may proceed by responding to a challenge
@@ -213,18 +243,6 @@ grant_type=password&username=johndoe&password=A3ddj3w
 
    An example response indicating that access is denied and the client
    is unable to proceed as required grant types are unsupported:
-
-
-
-
-
-
-
-
-Hanson                    Expires 6 April 2023                  [Page 4]
-
-Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
-
 
    HTTP/1.1 200 OK
    Content-Type: application/json;charset=UTF-8
@@ -254,6 +272,21 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/info/rfc6749>.
 
+
+
+
+
+
+Hanson                    Expires 6 April 2023                  [Page 5]
+
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
+
+
+   [RFC8414]  Jones, M., Sakimura, N., and J. Bradley, "OAuth 2.0
+              Authorization Server Metadata", RFC 8414,
+              DOI 10.17487/RFC8414, June 2018,
+              <https://www.rfc-editor.org/info/rfc8414>.
+
 5.2.  Informative References
 
    [RFC8252]  Denniss, W. and J. Bradley, "OAuth 2.0 for Native Apps",
@@ -275,42 +308,9 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
    [AppAuth]  Denniss, W., "AppAuth", <https://appauth.io>.
 
-
-
-Hanson                    Expires 6 April 2023                  [Page 5]
-
-Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
-
-
 Author's Address
 
    Jared Hanson
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
