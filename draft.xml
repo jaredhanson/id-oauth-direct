@@ -89,7 +89,7 @@
       <name>Capability Negotiation</name>
       
       <section>
-        <name>Server Capabilities</name>
+        <name>Authorization Server Capabilities</name>
         
         <t>The authorization server advertises supported grant types using the
           <tt>grant_types_supported</tt> metadata defined by
@@ -110,83 +110,104 @@
         </figure>
       </section>
       
-      
       <section>
-        <name>Access Token Request</name>
+        <name>Client Capabilities</name>
         
-        <t>The client informs the authorization server of its capabilities by adding
-          the following parameters in requests to the token endpoint:</t>
-        <dl newline="true">
-          <dt>grant_types_supported</dt>
-          <dd>OPTIONAL.  Array of OAuth 2.0 grant type strings that the client can
-            use at the token endpoint, expressed as a list of space- delimited, strings.
-            The array values used are the same as
-            those used with the "grant_types" parameter defined by "OAuth 2.0 Dynamic
-            Client Registration Protocol" [RFC7591].</dd>
-          <dt>software_id</dt>
-          <dd>OPTIONAL.  A unique identifier string assigned by the client
-            developer or software publisher used to identify the client software, as
-            defined by "OAuth 2.0 Dynamic Client Registration Protocol" [RFC7591].</dd>
-          <dt>software_version</dt>
-          <dd>OPTIONAL.  A version identifier string for the client software identified
-            by "software_id", , as
-            defined by "OAuth 2.0 Dynamic Client Registration Protocol" [RFC7591].</dd>
-        </dl>
-        <t>For example, the client makes the following HTTPS request (line breaks
-          are for display purposes only):</t>
-        <figure>
-        <artwork><![CDATA[
-POST /token HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
-
-grant_type=password&username=johndoe&password=A3ddj3w
-&client_id=s6BhdRkqt3
-&grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
-]]></artwork>
-        </figure>
-      </section>
+          <section>
+            <name>Dynamic Registration</name>
+            
+            <t>If the client supports <xref target="RFC7591">OAuth 2.0 Dynamic
+              Client Registration Protocol</xref>, the client SHOULD advertise
+              supported grant types by presenting them to the authorization
+              server using the <tt>grant_types</tt> metadata field in a client
+              registration request.</t>
+              
+            <t>If the properties of a client change during its lifetime (for
+              instance, because the client software was updated), the client
+              SHOULD update its registration with the authorization server by
+              making a client update request as specified by
+              <xref target="RFC7592">OAuth 2.0 Dynamic Client Registration
+              Management Protocol</xref>.</t>
+          </section>
       
-      <section>
-        <name>Access Token Response</name>
+      
+        <section>
+          <name>Access Token Request</name>
         
-        <t>If the token request is valid and authorized, the server...</t>
-      
-        <t>An example response indicating that multi-factor authentication (MFA)
-          is required and the client may proceed by responding to a challenge
-          using one the the supported grant types that was negotiated:</t>
-        <figure>
+          <t>The client informs the authorization server of its capabilities by adding
+            the following parameters in requests to the token endpoint:</t>
+          <dl newline="true">
+            <dt>grant_types_supported</dt>
+            <dd>OPTIONAL.  Array of OAuth 2.0 grant type strings that the client can
+              use at the token endpoint, expressed as a list of space- delimited, strings.
+              The array values used are the same as
+              those used with the "grant_types" parameter defined by "OAuth 2.0 Dynamic
+              Client Registration Protocol" [RFC7591].</dd>
+            <dt>software_id</dt>
+            <dd>OPTIONAL.  A unique identifier string assigned by the client
+              developer or software publisher used to identify the client software, as
+              defined by "OAuth 2.0 Dynamic Client Registration Protocol" [RFC7591].</dd>
+            <dt>software_version</dt>
+            <dd>OPTIONAL.  A version identifier string for the client software identified
+              by "software_id", , as
+              defined by "OAuth 2.0 Dynamic Client Registration Protocol" [RFC7591].</dd>
+          </dl>
+          <t>For example, the client makes the following HTTPS request (line breaks
+            are for display purposes only):</t>
+          <figure>
           <artwork><![CDATA[
+  POST /token HTTP/1.1
+  Host: server.example.com
+  Content-Type: application/x-www-form-urlencoded
+
+  grant_type=password&username=johndoe&password=A3ddj3w
+  &client_id=s6BhdRkqt3
+  &grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
+  ]]></artwork>
+          </figure>
+        </section>
+      
+        <section>
+          <name>Access Token Response</name>
+        
+          <t>If the token request is valid and authorized, the server...</t>
+      
+          <t>An example response indicating that multi-factor authentication (MFA)
+            is required and the client may proceed by responding to a challenge
+            using one the the supported grant types that was negotiated:</t>
+          <figure>
+            <artwork><![CDATA[
+    HTTP/1.1 200 OK
+    Content-Type: application/json;charset=UTF-8
+    Cache-Control: no-store
+    Pragma: no-cache
+
+    {
+      "error":"mfa_required",
+      "error_description":"Requested scope requires MFA",
+      "mfa_token":"8BykJh3Lz7zxz67hFi2esTthfq4k38ff"
+    }
+    ]]></artwork>
+          </figure>
+      
+          <t>An example response indicating that access is denied and the client is
+            unable to proceed as required grant types are unsupported:</t>
+          <figure>
+            <artwork><![CDATA[
   HTTP/1.1 200 OK
   Content-Type: application/json;charset=UTF-8
   Cache-Control: no-store
   Pragma: no-cache
 
   {
-    "error":"mfa_required",
-    "error_description":"Requested scope requires MFA",
-    "mfa_token":"8BykJh3Lz7zxz67hFi2esTthfq4k38ff"
+    "error":"access_denied",
+    "error_description":"Required authentication methods not
+  supported by client"
   }
   ]]></artwork>
-        </figure>
-      
-        <t>An example response indicating that access is denied and the client is
-          unable to proceed as required grant types are unsupported:</t>
-        <figure>
-          <artwork><![CDATA[
-HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-Cache-Control: no-store
-Pragma: no-cache
-
-{
-  "error":"access_denied",
-  "error_description":"Required authentication methods not
-supported by client"
-}
-]]></artwork>
-        </figure>
+          </figure>
         
+        </section>
       </section>
     </section>
     
@@ -210,6 +231,8 @@ supported by client"
         <name>Normative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6749.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8414.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7591.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.7592.xml"/>
       </references>
       <references>
         <name>Informative References</name>

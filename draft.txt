@@ -3,9 +3,9 @@
 
 
 Network Working Group                                  J. Hanson. Hanson
-Internet-Draft                                            3 October 2022
+Internet-Draft                                            5 October 2022
 Intended status: Informational                                          
-Expires: 6 April 2023
+Expires: 8 April 2023
 
 
                     OAuth 2.0 Direct Authentication
@@ -31,7 +31,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 April 2023.
+   This Internet-Draft will expire on 8 April 2023.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Hanson                    Expires 6 April 2023                  [Page 1]
+Hanson                    Expires 8 April 2023                  [Page 1]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -62,15 +62,17 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Capability Negotiation  . . . . . . . . . . . . . . . . . . .   3
-     2.1.  Server Capabilities . . . . . . . . . . . . . . . . . . .   3
-     2.2.  Access Token Request  . . . . . . . . . . . . . . . . . .   4
-     2.3.  Access Token Response . . . . . . . . . . . . . . . . . .   4
+     2.1.  Authorization Server Capabilities . . . . . . . . . . . .   3
+     2.2.  Client Capabilities . . . . . . . . . . . . . . . . . . .   4
+       2.2.1.  Dynamic Registration  . . . . . . . . . . . . . . . .   4
+       2.2.2.  Access Token Request  . . . . . . . . . . . . . . . .   4
+       2.2.3.  Access Token Response . . . . . . . . . . . . . . . .   5
    3.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
      5.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
 
 1.  Introduction
 
@@ -100,24 +102,18 @@ Table of Contents
    between the resource owner and the client (e.g., the client is part
    of the device operating system or a highly privileged application).
 
-
-
-
-
-
-
-
-
-
-Hanson                    Expires 6 April 2023                  [Page 2]
-
-Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
-
-
    When using the authorization server as an intermediary, the
    authorization process is delegated to the authorization server.  This
    process is often used as a form of delegated end-user authentication
    as well.  Delegation in this manner is particularly well-suited to
+
+
+
+Hanson                    Expires 8 April 2023                  [Page 2]
+
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
+
+
    web applications.  It is also a best practice for native apps, known
    as the "AppAuth [AppAuth] pattern" as detailed by OAuth 2.0 for
    Native Apps [RFC8252].
@@ -155,7 +151,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 2.  Capability Negotiation
 
-2.1.  Server Capabilities
+2.1.  Authorization Server Capabilities
 
    The authorization server advertises supported grant types using the
    grant_types_supported metadata defined by OAuth 2.0 Authorization
@@ -165,7 +161,11 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 
-Hanson                    Expires 6 April 2023                  [Page 3]
+
+
+
+
+Hanson                    Expires 8 April 2023                  [Page 3]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -178,7 +178,22 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
        ["password", "http://auth0.com/oauth/grant-type/mfa-otp"]
    }
 
-2.2.  Access Token Request
+2.2.  Client Capabilities
+
+2.2.1.  Dynamic Registration
+
+   If the client supports OAuth 2.0 Dynamic Client Registration Protocol
+   [RFC7591], the client SHOULD advertise supported grant types by
+   presenting them to the authorization server using the grant_types
+   metadata field in a client registration request.
+
+   If the properties of a client change during its lifetime (for
+   instance, because the client software was updated), the client SHOULD
+   update its registration with the authorization server by making a
+   client update request as specified by OAuth 2.0 Dynamic Client
+   Registration Management Protocol [RFC7592].
+
+2.2.2.  Access Token Request
 
    The client informs the authorization server of its capabilities by
    adding the following parameters in requests to the token endpoint:
@@ -204,31 +219,42 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
    For example, the client makes the following HTTPS request (line
    breaks are for display purposes only):
 
-POST /token HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
-
-grant_type=password&username=johndoe&password=A3ddj3w
-&client_id=s6BhdRkqt3
-&grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
-
-2.3.  Access Token Response
-
-   If the token request is valid and authorized, the server...
 
 
-
-
-
-
-Hanson                    Expires 6 April 2023                  [Page 4]
+Hanson                    Expires 8 April 2023                  [Page 4]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
+  POST /token HTTP/1.1
+  Host: server.example.com
+  Content-Type: application/x-www-form-urlencoded
+
+  grant_type=password&username=johndoe&password=A3ddj3w
+  &client_id=s6BhdRkqt3
+  &grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
+
+2.2.3.  Access Token Response
+
+   If the token request is valid and authorized, the server...
+
    An example response indicating that multi-factor authentication (MFA)
    is required and the client may proceed by responding to a challenge
    using one the the supported grant types that was negotiated:
+
+       HTTP/1.1 200 OK
+       Content-Type: application/json;charset=UTF-8
+       Cache-Control: no-store
+       Pragma: no-cache
+
+       {
+         "error":"mfa_required",
+         "error_description":"Requested scope requires MFA",
+         "mfa_token":"8BykJh3Lz7zxz67hFi2esTthfq4k38ff"
+       }
+
+   An example response indicating that access is denied and the client
+   is unable to proceed as required grant types are unsupported:
 
      HTTP/1.1 200 OK
      Content-Type: application/json;charset=UTF-8
@@ -236,29 +262,25 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
      Pragma: no-cache
 
      {
-       "error":"mfa_required",
-       "error_description":"Requested scope requires MFA",
-       "mfa_token":"8BykJh3Lz7zxz67hFi2esTthfq4k38ff"
+       "error":"access_denied",
+       "error_description":"Required authentication methods not
+     supported by client"
      }
-
-   An example response indicating that access is denied and the client
-   is unable to proceed as required grant types are unsupported:
-
-   HTTP/1.1 200 OK
-   Content-Type: application/json;charset=UTF-8
-   Cache-Control: no-store
-   Pragma: no-cache
-
-   {
-     "error":"access_denied",
-     "error_description":"Required authentication methods not
-   supported by client"
-   }
 
 3.  Security Considerations
 
    This document should not affect the security of the Internet.
    [CHECK]
+
+
+
+
+
+
+Hanson                    Expires 8 April 2023                  [Page 5]
+
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
+
 
 4.  IANA Considerations
 
@@ -272,20 +294,20 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/info/rfc6749>.
 
-
-
-
-
-
-Hanson                    Expires 6 April 2023                  [Page 5]
-
-Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
-
-
    [RFC8414]  Jones, M., Sakimura, N., and J. Bradley, "OAuth 2.0
               Authorization Server Metadata", RFC 8414,
               DOI 10.17487/RFC8414, June 2018,
               <https://www.rfc-editor.org/info/rfc8414>.
+
+   [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
+              P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
+              RFC 7591, DOI 10.17487/RFC7591, July 2015,
+              <https://www.rfc-editor.org/info/rfc7591>.
+
+   [RFC7592]  Richer, J., Ed., Jones, M., Bradley, J., and M. Machulak,
+              "OAuth 2.0 Dynamic Client Registration Management
+              Protocol", RFC 7592, DOI 10.17487/RFC7592, July 2015,
+              <https://www.rfc-editor.org/info/rfc7592>.
 
 5.2.  Informative References
 
@@ -307,6 +329,14 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
               <https://www.rfc-editor.org/info/rfc4422>.
 
    [AppAuth]  Denniss, W., "AppAuth", <https://appauth.io>.
+
+
+
+
+Hanson                    Expires 8 April 2023                  [Page 6]
+
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
+
 
 Author's Address
 
@@ -333,4 +363,30 @@ Author's Address
 
 
 
-Hanson                    Expires 6 April 2023                  [Page 6]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hanson                    Expires 8 April 2023                  [Page 7]
