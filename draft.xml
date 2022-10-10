@@ -122,50 +122,55 @@
               server using the <tt>grant_types</tt> metadata field in a client
               registration request.</t>
               
-            <t>If the properties of a client change during its lifetime (for
-              instance, because the client software was updated), the client
-              SHOULD update its registration with the authorization server by
-              making a client update request as specified by
-              <xref target="RFC7592">OAuth 2.0 Dynamic Client Registration
-              Management Protocol</xref>.</t>
+            <t>If the properties of a dynamically registered client change
+              during its lifetime (for instance, because the client software was
+              updated), the client SHOULD update its registration with the
+              authorization server by making a client update request as
+              specified by <xref target="RFC7592">OAuth 2.0 Dynamic Client
+              Registration Management Protocol</xref>.</t>
           </section>
-      
-      
-        <section>
-          <name>Access Token Request</name>
-        
-          <t>The client informs the authorization server of its capabilities by adding
-            the following parameters in requests to the token endpoint:</t>
-          <dl newline="true">
-            <dt>grant_types_supported</dt>
-            <dd>OPTIONAL.  Array of OAuth 2.0 grant type strings that the client can
-              use at the token endpoint, expressed as a list of space- delimited, strings.
-              The array values used are the same as
-              those used with the "grant_types" parameter defined by "OAuth 2.0 Dynamic
-              Client Registration Protocol" [RFC7591].</dd>
-            <dt>software_id</dt>
-            <dd>OPTIONAL.  A unique identifier string assigned by the client
-              developer or software publisher used to identify the client software, as
-              defined by "OAuth 2.0 Dynamic Client Registration Protocol" [RFC7591].</dd>
-            <dt>software_version</dt>
-            <dd>OPTIONAL.  A version identifier string for the client software identified
-              by "software_id", , as
-              defined by "OAuth 2.0 Dynamic Client Registration Protocol" [RFC7591].</dd>
-          </dl>
-          <t>For example, the client makes the following HTTPS request (line breaks
-            are for display purposes only):</t>
-          <figure>
-          <artwork><![CDATA[
-  POST /token HTTP/1.1
-  Host: server.example.com
-  Content-Type: application/x-www-form-urlencoded
+          
+          <section>
+            <name>Token Request</name>
+            
+            <t>A client supporting this specification SHOULD advertise its
+              capabilities by adding the following parameters in requests to the
+              token endpoint:</t>
+            
+            <dl newline="true">
+              <dt>grant_types_supported</dt>
+              <dd>Array of OAuth 2.0 grant type strings that the client can use
+                at the token endpoint, expressed as a list of space-delimited
+                strings.  The array values used are the same as those used with
+                the <tt>grant_types</tt> parameter defined by
+                <xref target="RFC7591">OAuth 2.0 Dynamic Client Registration
+                Protocol</xref>.</dd>
+              <dt>software_id</dt>
+              <dd>A unique identifier string assigned by the client developer or
+                software publisher used to identify the client software, as
+                defined by <xref target="RFC7591">OAuth 2.0 Dynamic Client
+                Registration Protocol</xref>.</dd>
+              <dt>software_version</dt>
+              <dd>A version identifier string for the client software identified
+                by <tt>software_id</tt>, as defined by
+                <xref target="RFC7591">OAuth 2.0 Dynamic Client Registration
+                Protocol</xref>.</dd>
+            </dl>
+            
+            <t>For example, the client makes the following HTTPS request (line breaks
+              are for display purposes only):</t>
+            <figure>
+              <artwork><![CDATA[
+POST /token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
 
-  grant_type=password&username=johndoe&password=A3ddj3w
-  &client_id=s6BhdRkqt3
-  &grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
-  ]]></artwork>
-          </figure>
-        </section>
+grant_type=password&username=johndoe&password=A3ddj3w
+&client_id=s6BhdRkqt3
+&grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
+]]></artwork>
+            </figure>
+          </section>
       
         <section>
           <name>Access Token Response</name>

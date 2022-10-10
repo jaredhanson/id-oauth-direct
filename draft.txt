@@ -3,9 +3,9 @@
 
 
 Network Working Group                                  J. Hanson. Hanson
-Internet-Draft                                            5 October 2022
+Internet-Draft                                           10 October 2022
 Intended status: Informational                                          
-Expires: 8 April 2023
+Expires: 13 April 2023
 
 
                     OAuth 2.0 Direct Authentication
@@ -31,7 +31,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 April 2023.
+   This Internet-Draft will expire on 13 April 2023.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Hanson                    Expires 8 April 2023                  [Page 1]
+Hanson                    Expires 13 April 2023                 [Page 1]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -65,7 +65,7 @@ Table of Contents
      2.1.  Authorization Server Capabilities . . . . . . . . . . . .   3
      2.2.  Client Capabilities . . . . . . . . . . . . . . . . . . .   4
        2.2.1.  Dynamic Registration  . . . . . . . . . . . . . . . .   4
-       2.2.2.  Access Token Request  . . . . . . . . . . . . . . . .   4
+       2.2.2.  Token Request . . . . . . . . . . . . . . . . . . . .   4
        2.2.3.  Access Token Response . . . . . . . . . . . . . . . .   5
    3.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
    4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Hanson                    Expires 8 April 2023                  [Page 2]
+Hanson                    Expires 13 April 2023                 [Page 2]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -165,7 +165,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 
-Hanson                    Expires 8 April 2023                  [Page 3]
+Hanson                    Expires 13 April 2023                 [Page 3]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -187,52 +187,55 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
    presenting them to the authorization server using the grant_types
    metadata field in a client registration request.
 
-   If the properties of a client change during its lifetime (for
-   instance, because the client software was updated), the client SHOULD
-   update its registration with the authorization server by making a
-   client update request as specified by OAuth 2.0 Dynamic Client
-   Registration Management Protocol [RFC7592].
+   If the properties of a dynamically registered client change during
+   its lifetime (for instance, because the client software was updated),
+   the client SHOULD update its registration with the authorization
+   server by making a client update request as specified by OAuth 2.0
+   Dynamic Client Registration Management Protocol [RFC7592].
 
-2.2.2.  Access Token Request
+2.2.2.  Token Request
 
-   The client informs the authorization server of its capabilities by
-   adding the following parameters in requests to the token endpoint:
+   A client supporting this specification SHOULD advertise its
+   capabilities by adding the following parameters in requests to the
+   token endpoint:
 
    grant_types_supported
-      OPTIONAL.  Array of OAuth 2.0 grant type strings that the client
-      can use at the token endpoint, expressed as a list of space-
-      delimited, strings.  The array values used are the same as those
-      used with the "grant_types" parameter defined by "OAuth 2.0
-      Dynamic Client Registration Protocol" [RFC7591].
+      Array of OAuth 2.0 grant type strings that the client can use at
+      the token endpoint, expressed as a list of space-delimited
+      strings.  The array values used are the same as those used with
+      the grant_types parameter defined by OAuth 2.0 Dynamic Client
+      Registration Protocol [RFC7591].
 
    software_id
-      OPTIONAL.  A unique identifier string assigned by the client
-      developer or software publisher used to identify the client
-      software, as defined by "OAuth 2.0 Dynamic Client Registration
-      Protocol" [RFC7591].
+      A unique identifier string assigned by the client developer or
+      software publisher used to identify the client software, as
+      defined by OAuth 2.0 Dynamic Client Registration Protocol
+      [RFC7591].
 
    software_version
-      OPTIONAL.  A version identifier string for the client software
-      identified by "software_id", , as defined by "OAuth 2.0 Dynamic
-      Client Registration Protocol" [RFC7591].
-
-   For example, the client makes the following HTTPS request (line
-   breaks are for display purposes only):
+      A version identifier string for the client software identified by
+      software_id, as defined by OAuth 2.0 Dynamic Client Registration
+      Protocol [RFC7591].
 
 
 
-Hanson                    Expires 8 April 2023                  [Page 4]
+
+
+Hanson                    Expires 13 April 2023                 [Page 4]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
-  POST /token HTTP/1.1
-  Host: server.example.com
-  Content-Type: application/x-www-form-urlencoded
+   For example, the client makes the following HTTPS request (line
+   breaks are for display purposes only):
 
-  grant_type=password&username=johndoe&password=A3ddj3w
-  &client_id=s6BhdRkqt3
-  &grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
+POST /token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=johndoe&password=A3ddj3w
+&client_id=s6BhdRkqt3
+&grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
 
 2.2.3.  Access Token Response
 
@@ -274,10 +277,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 
-
-
-
-Hanson                    Expires 8 April 2023                  [Page 5]
+Hanson                    Expires 13 April 2023                 [Page 5]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -333,7 +333,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 
-Hanson                    Expires 8 April 2023                  [Page 6]
+Hanson                    Expires 13 April 2023                 [Page 6]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -389,4 +389,4 @@ Author's Address
 
 
 
-Hanson                    Expires 8 April 2023                  [Page 7]
+Hanson                    Expires 13 April 2023                 [Page 7]
