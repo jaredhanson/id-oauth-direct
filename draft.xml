@@ -178,6 +178,11 @@ grant_type=password&username=johndoe&password=A3ddj3w
       <!-- All drafts are required to have a security considerations section. See RFC 3552 for a guide. -->
       <name>Security Considerations</name>
       <t>This document should not affect the security of the Internet. [CHECK]</t>
+      
+      <t>TODO: Talk about preventing use of certian grant types (for example,
+        if a client support authorization_code, it shouldn't use direct auth).
+        See: https://www.rfc-editor.org/rfc/rfc7591.html 4th paragraph of security
+        concerns</t>
     </section>
     
     <section anchor="IANA">

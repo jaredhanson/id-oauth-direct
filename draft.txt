@@ -70,7 +70,7 @@ Table of Contents
    4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
    5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
      5.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
-     5.2.  Informative References  . . . . . . . . . . . . . . . . .   5
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .   6
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
@@ -242,6 +242,11 @@ grant_type=password&username=johndoe&password=A3ddj3w
    This document should not affect the security of the Internet.
    [CHECK]
 
+   TODO: Talk about preventing use of certian grant types (for example,
+   if a client support authorization_code, it shouldn't use direct
+   auth).  See: https://www.rfc-editor.org/rfc/rfc7591.html 4th
+   paragraph of security concerns
+
 4.  IANA Considerations
 
    This memo includes no request to IANA.  [CHECK]
@@ -269,11 +274,6 @@ grant_type=password&username=johndoe&password=A3ddj3w
               Protocol", RFC 7592, DOI 10.17487/RFC7592, July 2015,
               <https://www.rfc-editor.org/info/rfc7592>.
 
-5.2.  Informative References
-
-   [RFC8252]  Denniss, W. and J. Bradley, "OAuth 2.0 for Native Apps",
-              BCP 212, RFC 8252, DOI 10.17487/RFC8252, October 2017,
-              <https://www.rfc-editor.org/info/rfc8252>.
 
 
 
@@ -281,6 +281,12 @@ Hanson                    Expires 14 April 2023                 [Page 5]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
+
+5.2.  Informative References
+
+   [RFC8252]  Denniss, W. and J. Bradley, "OAuth 2.0 for Native Apps",
+              BCP 212, RFC 8252, DOI 10.17487/RFC8252, October 2017,
+              <https://www.rfc-editor.org/info/rfc8252>.
 
    [I-D.ietf-oauth-security-topics]
               Lodderstedt, T., Bradley, J., Labunets, A., and D. Fett,
@@ -300,12 +306,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 Author's Address
 
    Jared Hanson
-
-
-
-
-
-
 
 
 
