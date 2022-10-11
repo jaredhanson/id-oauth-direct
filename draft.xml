@@ -171,48 +171,6 @@ grant_type=password&username=johndoe&password=A3ddj3w
 ]]></artwork>
             </figure>
           </section>
-      
-        <section>
-          <name>Access Token Response</name>
-        
-          <t>If the token request is valid and authorized, the server...</t>
-      
-          <t>An example response indicating that multi-factor authentication (MFA)
-            is required and the client may proceed by responding to a challenge
-            using one the the supported grant types that was negotiated:</t>
-          <figure>
-            <artwork><![CDATA[
-    HTTP/1.1 200 OK
-    Content-Type: application/json;charset=UTF-8
-    Cache-Control: no-store
-    Pragma: no-cache
-
-    {
-      "error":"mfa_required",
-      "error_description":"Requested scope requires MFA",
-      "mfa_token":"8BykJh3Lz7zxz67hFi2esTthfq4k38ff"
-    }
-    ]]></artwork>
-          </figure>
-      
-          <t>An example response indicating that access is denied and the client is
-            unable to proceed as required grant types are unsupported:</t>
-          <figure>
-            <artwork><![CDATA[
-  HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
-  Cache-Control: no-store
-  Pragma: no-cache
-
-  {
-    "error":"access_denied",
-    "error_description":"Required authentication methods not
-  supported by client"
-  }
-  ]]></artwork>
-          </figure>
-        
-        </section>
       </section>
     </section>
     

@@ -3,9 +3,9 @@
 
 
 Network Working Group                                  J. Hanson. Hanson
-Internet-Draft                                           10 October 2022
+Internet-Draft                                           11 October 2022
 Intended status: Informational                                          
-Expires: 13 April 2023
+Expires: 14 April 2023
 
 
                     OAuth 2.0 Direct Authentication
@@ -31,7 +31,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 April 2023.
+   This Internet-Draft will expire on 14 April 2023.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Hanson                    Expires 13 April 2023                 [Page 1]
+Hanson                    Expires 14 April 2023                 [Page 1]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -66,13 +66,12 @@ Table of Contents
      2.2.  Client Capabilities . . . . . . . . . . . . . . . . . . .   4
        2.2.1.  Dynamic Registration  . . . . . . . . . . . . . . . .   4
        2.2.2.  Token Request . . . . . . . . . . . . . . . . . . . .   4
-       2.2.3.  Access Token Response . . . . . . . . . . . . . . . .   5
    3.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
-   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
-     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
-     5.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .   5
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
 
@@ -102,18 +101,23 @@ Table of Contents
    between the resource owner and the client (e.g., the client is part
    of the device operating system or a highly privileged application).
 
-   When using the authorization server as an intermediary, the
-   authorization process is delegated to the authorization server.  This
-   process is often used as a form of delegated end-user authentication
-   as well.  Delegation in this manner is particularly well-suited to
 
 
 
-Hanson                    Expires 13 April 2023                 [Page 2]
+
+
+
+
+
+Hanson                    Expires 14 April 2023                 [Page 2]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
+   When using the authorization server as an intermediary, the
+   authorization process is delegated to the authorization server.  This
+   process is often used as a form of delegated end-user authentication
+   as well.  Delegation in this manner is particularly well-suited to
    web applications.  It is also a best practice for native apps, known
    as the "AppAuth [AppAuth] pattern" as detailed by OAuth 2.0 for
    Native Apps [RFC8252].
@@ -161,11 +165,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 
-
-
-
-
-Hanson                    Expires 13 April 2023                 [Page 3]
+Hanson                    Expires 14 April 2023                 [Page 3]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -221,7 +221,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 
-Hanson                    Expires 13 April 2023                 [Page 4]
+Hanson                    Expires 14 April 2023                 [Page 4]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -237,50 +237,10 @@ grant_type=password&username=johndoe&password=A3ddj3w
 &client_id=s6BhdRkqt3
 &grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
 
-2.2.3.  Access Token Response
-
-   If the token request is valid and authorized, the server...
-
-   An example response indicating that multi-factor authentication (MFA)
-   is required and the client may proceed by responding to a challenge
-   using one the the supported grant types that was negotiated:
-
-       HTTP/1.1 200 OK
-       Content-Type: application/json;charset=UTF-8
-       Cache-Control: no-store
-       Pragma: no-cache
-
-       {
-         "error":"mfa_required",
-         "error_description":"Requested scope requires MFA",
-         "mfa_token":"8BykJh3Lz7zxz67hFi2esTthfq4k38ff"
-       }
-
-   An example response indicating that access is denied and the client
-   is unable to proceed as required grant types are unsupported:
-
-     HTTP/1.1 200 OK
-     Content-Type: application/json;charset=UTF-8
-     Cache-Control: no-store
-     Pragma: no-cache
-
-     {
-       "error":"access_denied",
-       "error_description":"Required authentication methods not
-     supported by client"
-     }
-
 3.  Security Considerations
 
    This document should not affect the security of the Internet.
    [CHECK]
-
-
-
-Hanson                    Expires 13 April 2023                 [Page 5]
-
-Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
-
 
 4.  IANA Considerations
 
@@ -315,6 +275,13 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
               BCP 212, RFC 8252, DOI 10.17487/RFC8252, October 2017,
               <https://www.rfc-editor.org/info/rfc8252>.
 
+
+
+Hanson                    Expires 14 April 2023                 [Page 5]
+
+Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
+
+
    [I-D.ietf-oauth-security-topics]
               Lodderstedt, T., Bradley, J., Labunets, A., and D. Fett,
               "OAuth 2.0 Security Best Current Practice", Work in
@@ -329,14 +296,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
               <https://www.rfc-editor.org/info/rfc4422>.
 
    [AppAuth]  Denniss, W., "AppAuth", <https://appauth.io>.
-
-
-
-
-Hanson                    Expires 13 April 2023                 [Page 6]
-
-Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
-
 
 Author's Address
 
@@ -374,19 +333,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hanson                    Expires 13 April 2023                 [Page 7]
+Hanson                    Expires 14 April 2023                 [Page 6]
