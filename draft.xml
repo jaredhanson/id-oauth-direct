@@ -23,6 +23,8 @@
       </address>
     </author>
     <date/>
+    <area>Security</area>
+    <workgroup>Web Authorization Protocol</workgroup>
     
     <abstract>
       <t>This specification defines extensions to OAuth 2.0 that improve its

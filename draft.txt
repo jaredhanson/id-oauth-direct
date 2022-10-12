@@ -2,7 +2,7 @@
 
 
 
-Network Working Group                                          J. Hanson
+Web Authorization Protocol                                     J. Hanson
 Internet-Draft                                                      Okta
 Intended status: Informational                           12 October 2022
 Expires: 15 April 2023
