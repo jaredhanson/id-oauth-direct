@@ -3,8 +3,8 @@
 
 
 Network Working Group                                          J. Hanson
-Internet-Draft                                           12 October 2022
-Intended status: Informational                                          
+Internet-Draft                                                      Okta
+Intended status: Informational                           12 October 2022
 Expires: 15 April 2023
 
 
@@ -306,9 +306,9 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 Author's Address
 
    Jared Hanson
-
-
-
+   Okta
+   Email: jared.hanson@okta.com
+   URI:   https://www.jaredhanson.me/
 
 
 

@@ -9,6 +9,11 @@
     <title>OAuth 2.0 Direct Authentication</title>
     <seriesInfo name="Internet-Draft" value="draft-hanson-oauth-direct-00"/>
     <author fullname="Jared Hanson" initials="J." surname="Hanson">
+      <organization>Okta</organization>
+      <address>       
+        <email>jared.hanson@okta.com</email>
+        <uri>https://www.jaredhanson.me/</uri>
+      </address>
     </author>
     
     <abstract>
