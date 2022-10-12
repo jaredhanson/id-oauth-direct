@@ -2,10 +2,10 @@
 
 
 
-Network Working Group                                  J. Hanson. Hanson
-Internet-Draft                                           11 October 2022
+Network Working Group                                          J. Hanson
+Internet-Draft                                           12 October 2022
 Intended status: Informational                                          
-Expires: 14 April 2023
+Expires: 15 April 2023
 
 
                     OAuth 2.0 Direct Authentication
@@ -31,7 +31,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 April 2023.
+   This Internet-Draft will expire on 15 April 2023.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Hanson                    Expires 14 April 2023                 [Page 1]
+Hanson                    Expires 15 April 2023                 [Page 1]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Hanson                    Expires 14 April 2023                 [Page 2]
+Hanson                    Expires 15 April 2023                 [Page 2]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -165,7 +165,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 
-Hanson                    Expires 14 April 2023                 [Page 3]
+Hanson                    Expires 15 April 2023                 [Page 3]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -221,7 +221,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
 
 
-Hanson                    Expires 14 April 2023                 [Page 4]
+Hanson                    Expires 15 April 2023                 [Page 4]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -277,7 +277,7 @@ grant_type=password&username=johndoe&password=A3ddj3w
 
 
 
-Hanson                    Expires 14 April 2023                 [Page 5]
+Hanson                    Expires 15 April 2023                 [Page 5]
 
 Internet-Draft       OAuth 2.0 Direct Authentication        October 2022
 
@@ -333,4 +333,4 @@ Author's Address
 
 
 
-Hanson                    Expires 14 April 2023                 [Page 6]
+Hanson                    Expires 15 April 2023                 [Page 6]
