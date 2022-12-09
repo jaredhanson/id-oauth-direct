@@ -229,13 +229,14 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
    For example, the client makes the following HTTPS request (line
    breaks are for display purposes only):
 
-POST /token HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
+   POST /token HTTP/1.1
+   Host: server.example.com
+   Content-Type: application/x-www-form-urlencoded
 
-grant_type=password&username=johndoe&password=A3ddj3w
-&client_id=s6BhdRkqt3
-&grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
+   grant_type=password&username=johndoe&password=A3ddj3w
+   &client_id=s6BhdRkqt3
+   &grant_types_supported=
+    http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
 
 3.  Obtaining Authorization
 
@@ -276,19 +277,18 @@ grant_type=password&username=johndoe&password=A3ddj3w
 
 
 
-
 Hanson                    Expires 12 June 2023                  [Page 5]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 
-  POST /token HTTP/1.1
-  Host: server.example.com
-  Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
-  Content-Type: application/x-www-form-urlencoded
+     POST /token HTTP/1.1
+     Host: server.example.com
+     Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+     Content-Type: application/x-www-form-urlencoded
 
-  grant_type=urn%3Aokta%3Aparams%3Aoauth%3Agrant-type%3Aotp&username=johndoe
-  &otp=123456
+     grant_type=urn%3Aokta%3Aparams%3Aoauth%3Agrant-type%3Aotp
+     &username=johndoe&otp=123456
 
 3.2.  Out-of-Band Authorization Grant
 

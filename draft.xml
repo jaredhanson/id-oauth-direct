@@ -182,7 +182,8 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=password&username=johndoe&password=A3ddj3w
 &client_id=s6BhdRkqt3
-&grant_types_supported=http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
+&grant_types_supported=
+ http%3A%2F%2Fauth0.com%2Foauth%2Fgrant-type%2Fmfa-otp
 ]]></artwork>
             </figure>
           </section>
@@ -240,8 +241,8 @@ grant_type=password&username=johndoe&password=A3ddj3w
   Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
   Content-Type: application/x-www-form-urlencoded
 
-  grant_type=urn%3Aokta%3Aparams%3Aoauth%3Agrant-type%3Aotp&username=johndoe
-  &otp=123456
+  grant_type=urn%3Aokta%3Aparams%3Aoauth%3Agrant-type%3Aotp
+  &username=johndoe&otp=123456
 ]]></artwork>
           </figure>
         </section>
