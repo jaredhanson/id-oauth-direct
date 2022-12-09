@@ -245,6 +245,32 @@ grant_type=password&username=johndoe&password=A3ddj3w
   &username=johndoe&otp=123456
 ]]></artwork>
           </figure>
+          
+          <t>The authorization server MUST:</t>
+          
+          <ul>
+            <li>require client authentication for confidential clients or for
+              any client that was issued client credentials (or with other
+              authentication requirements),</li>
+                
+            <li>authenticate the client if client authentication is
+              included,</li>
+              
+            <li>validate the one-time password credentials using its existing
+              OTP validation algorithm.</li>
+          </ul>
+        </section>
+        
+        <section>
+          <name>Access Token Response</name>
+          
+          <t>If the access token request is valid and authorized, the
+            authorization server issues an access token and optional refresh
+            token as described in in
+            <xref target="RFC6749" section="5.1">OAuth 2.0</xref>.  If the
+            request failed client authentication or is invalid, the
+            authorization server returns an error response as described in
+            <xref target="RFC6749" section="5.2">OAuth 2.0</xref>.</t>
         </section>
       </section>
       
