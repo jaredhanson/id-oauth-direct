@@ -280,13 +280,57 @@ grant_type=password&username=johndoe&password=A3ddj3w
         <section>
           <name>Authorization Request</name>
           
+          <t>This specification defines a new OAuth endpoint: the out-of-band
+            authorization endpoint.  This is separate from the OAuth
+            authorization endpoint defined in
+            <xref target="RFC6749" section="3.1">OAuth 2.0</xref> with
+            which the user interacts via a user agent (i.e., a browser).  By
+            comparison, when using the out-of-band authorization endpoint, the
+            OAuth client interacts with the authorization server directly
+            without presenting the request in a user agent, and the resource
+            owner authorizes the request via a secondary channel and optionally
+            binding that channel with the primary channel.  This interaction is
+            defined as follows.</t>
+            
+          <t>The client initiates the authorization flow by requesting a
+            transaction code from the authorization server by making an HTTP
+            "POST" request to the out-of-band authorization endpoint.</t>
+            
+          <t>The client makes a request to the out-of-band authorization endpoint
+            by adding the following parameters using the
+            <tt>"application/x-www-form-urlencoded"</tt> format with a character
+            encoding of UTF-8 in the HTTP request entity-body:</t>
+            
+          <dl newline="true">
+            <dt>client_id</dt>
+            <dd>REQUIRED, if the client is not authenticating with the
+              authorization server as described in
+              <xref target="RFC6749" section="3.2.1">OAuth 2.0</xref>.</dd>
+            
+            <dt>scope</dt>
+            <dd>OPTIONAL.  The scope of the access request as defined by
+              <xref target="RFC6749" section="3.3">OAuth 2.0</xref>.</dd>
+              
+            <dt>login_hint</dt>
+            <dd>REQUIRED.  A hint to the authorization server regarding the
+              end-user for whom authorization is being requested. The value may
+              contain an email address, phone number, account number, subject
+              identifier, username, etc., which identifies the end-user to the
+              authorization server.</dd>
+              
+            <dt>channel_hint</dt>
+            <dd>OPTIONAL.  A hint to the authorization server regarding the
+              out-of-band channel over which the end-user's authorization should
+              be requested.</dd>
+          </dl>
+          
           <t>For example, the client makes the following HTTP request using
             transport-layer security (with extra line breaks for display
             purposes only):</t>
       
           <figure>
             <artwork><![CDATA[
-  POST /oob-authenticate HTTP/1.1
+  POST /oob-authorize HTTP/1.1
   Host: server.example.com
   Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
   Content-Type: application/x-www-form-urlencoded
