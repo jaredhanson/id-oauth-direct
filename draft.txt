@@ -379,13 +379,13 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
    channel_hint
       OPTIONAL.  A hint to the authorization server regarding the out-
       of-band channel over which the end-user's authorization should be
-      requested.
+      requested.  Values defined by this specification are:
 
-   For example, the client makes the following HTTP request using
-   transport-layer security (with extra line breaks for display purposes
-   only):
+      sms
+         SMS message sent to the end-user's mobile phone.
 
-
+      tel
+         Telephone call made to the end-user's landline or mobile phone.
 
 
 
@@ -393,6 +393,13 @@ Hanson                    Expires 17 June 2023                  [Page 7]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
+
+      email
+         Message sent to the end-user's email address.
+
+   For example, the client makes the following HTTP request using
+   transport-layer security (with extra line breaks for display purposes
+   only):
 
      POST /oob-authorize HTTP/1.1
      Host: server.example.com
@@ -434,6 +441,15 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
       REQUIRED.  The out-of-band transaction code, "oob_code" from the
       authorization challenge, defined in...
 
+
+
+
+
+Hanson                    Expires 17 June 2023                  [Page 8]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
+
    binding_code
       REQUIRED, if the binding method of the authorization challenge
       defined in....
@@ -442,13 +458,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
       REQUIRED, if the client is not authenticating with the
       authorization server as described in Section 3.2.1 of OAuth 2.0
       [RFC6749].
-
-
-
-Hanson                    Expires 17 June 2023                  [Page 8]
-
-Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
-
 
 4.  Security Considerations
 
@@ -489,15 +498,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 6.2.  Informative References
 
-   [RFC8252]  Denniss, W. and J. Bradley, "OAuth 2.0 for Native Apps",
-              BCP 212, RFC 8252, DOI 10.17487/RFC8252, October 2017,
-              <https://www.rfc-editor.org/info/rfc8252>.
-
-
-
-
-
-
 
 
 
@@ -505,6 +505,10 @@ Hanson                    Expires 17 June 2023                  [Page 9]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
+
+   [RFC8252]  Denniss, W. and J. Bradley, "OAuth 2.0 for Native Apps",
+              BCP 212, RFC 8252, DOI 10.17487/RFC8252, October 2017,
+              <https://www.rfc-editor.org/info/rfc8252>.
 
    [I-D.ietf-oauth-security-topics]
               Lodderstedt, T., Bradley, J., Labunets, A., and D. Fett,
@@ -530,10 +534,6 @@ Author's Address
    United States of America
    Email: jared.hanson@okta.com
    URI:   https://www.jaredhanson.me/
-
-
-
-
 
 
 

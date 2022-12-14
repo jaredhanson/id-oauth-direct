@@ -321,7 +321,19 @@ grant_type=password&username=johndoe&password=A3ddj3w
             <dt>channel_hint</dt>
             <dd>OPTIONAL.  A hint to the authorization server regarding the
               out-of-band channel over which the end-user's authorization should
-              be requested.</dd>
+              be requested.  Values defined by this specification are:
+            
+              <dl newline="true">
+                <dt>sms</dt>
+                <dd>SMS message sent to the end-user's mobile phone.</dd>
+                
+                <dt>tel</dt>
+                <dd>Telephone call made to the end-user's landline or mobile phone.</dd>
+                
+                <dt>email</dt>
+                <dd>Message sent to the end-user's email address.</dd>
+              </dl>
+            </dd>
           </dl>
           
           <t>For example, the client makes the following HTTP request using
