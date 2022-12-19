@@ -74,14 +74,14 @@ Table of Contents
      3.2.  Out-of-Band Authorization Grant . . . . . . . . . . . . .   6
        3.2.1.  Authorization Request . . . . . . . . . . . . . . . .   7
        3.2.2.  Authorization Response  . . . . . . . . . . . . . . .   8
-       3.2.3.  User Interaction  . . . . . . . . . . . . . . . . . .   8
-       3.2.4.  Access Token Request  . . . . . . . . . . . . . . . .   9
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
-   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     6.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
-     6.2.  Informative References  . . . . . . . . . . . . . . . . .  10
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  10
+       3.2.3.  User Interaction  . . . . . . . . . . . . . . . . . .  10
+       3.2.4.  Access Token Request  . . . . . . . . . . . . . . . .  10
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
+     6.2.  Informative References  . . . . . . . . . . . . . . . . .  11
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
 
@@ -421,7 +421,90 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 3.2.2.  Authorization Response
 
+   If the authorization request is valid, the authorization server
+   generates a unique out-of-band transaction code that is valid for a
+   limited time.  It then initiates an out-of-band authorization
+   operation, the details of which are out of scope for this
+   specification.  It then constructs the response by adding the
+   following parameters to the entity-body of the HTTP response using
+   the "application/json" format [RFC8259] with a 200 (OK) status code:
+
+   oob_code
+      REQUIRED.  The out-of-band transaction code.  The out-of-band
+      transaction code MUST expire shortly after it is issued to
+      mitigate the risk of leaks.  A maximum out-of-band transaction
+      code lifetime of 10 minutes is RECOMMENDED.
+
+   binding_code
+      OPTIONAL.  The end-user verification code used to bind the
+      authorization operation on the secondary channel with the primary
+      channel.  REQUIRED, if the value of "binding_method" is set to
+      "transfer" or "compare".
+
+   binding_method
+
+
+
+Hanson                    Expires 22 June 2023                  [Page 8]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
+
+      OPTIONAL.  The method used to bind the authorization operation on
+      the secondary channel with the primary channel.  If no value is
+      provided, clients MUST use "none" as the default.  Values defined
+      by this specification are:
+
+      prompt
+         The end user should be prompted to enter a code received during
+         out-of-band authorization via the secondary channel into the
+         client.  For example, the end user receives a code on their
+         mobile phone (typically a 6-digit code) and types it into the
+         client.
+
+      transfer
+         The client displays or otherwise communicates the
+         "binding_code" to the end user and instructs them to enter it
+         into or otherwise transfer it to the secondary channel.  For
+         example, the end user may view the "binding_code" on the client
+         and either type it into an app on their mobile phone or use a
+         QR code to effect the transfer.
+
+      compare
+         The client displays the "binding_code" to the end user and
+         instructs them to compare it to the code received during out-
+         of-band authorization before confirming authorization via the
+         secondary channel.
+
+      none
+         No binding is performed between the client on the primary
+         channel and the out-of-band authorization operation via the
+         secondary channel.
+
+   expires_in
+      REQUIRED.  The lifetime in seconds of the "oob_code".
+
+   interval
+      OPTIONAL.  The minimum amount of time in seconds that the client
+      SHOULD wait between polling requests to the token endpoint.  If no
+      value is provided, clients MUST use 5 as the default.
+
    For example:
+
+
+
+
+
+
+
+
+
+
+
+Hanson                    Expires 22 June 2023                  [Page 9]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
 
      HTTP/1.1 200 OK
      Content-Type: application/json;charset=UTF-8
@@ -436,19 +519,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
      }
 
 3.2.3.  User Interaction
-
-
-
-
-
-
-
-
-
-Hanson                    Expires 22 June 2023                  [Page 8]
-
-Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
-
 
 3.2.4.  Access Token Request
 
@@ -484,6 +554,14 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
    auth).  See: https://www.rfc-editor.org/rfc/rfc7591.html 4th
    paragraph of security concerns
 
+
+
+
+Hanson                    Expires 22 June 2023                 [Page 10]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
+
 5.  IANA Considerations
 
    This memo includes no request to IANA.  [CHECK]
@@ -495,16 +573,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
    [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/info/rfc6749>.
-
-
-
-
-
-
-Hanson                    Expires 22 June 2023                  [Page 9]
-
-Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
-
 
    [RFC8414]  Jones, M., Sakimura, N., and J. Bradley, "OAuth 2.0
               Authorization Server Metadata", RFC 8414,
@@ -521,6 +589,11 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
               Protocol", RFC 7592, DOI 10.17487/RFC7592, July 2015,
               <https://www.rfc-editor.org/info/rfc7592>.
 
+   [RFC8259]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
+              Interchange Format", STD 90, RFC 8259,
+              DOI 10.17487/RFC8259, December 2017,
+              <https://www.rfc-editor.org/info/rfc8259>.
+
 6.2.  Informative References
 
    [RFC8252]  Denniss, W. and J. Bradley, "OAuth 2.0 for Native Apps",
@@ -534,6 +607,16 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
               topics-21, 27 September 2022,
               <https://www.ietf.org/archive/id/draft-ietf-oauth-
               security-topics-21.txt>.
+
+
+
+
+
+
+Hanson                    Expires 22 June 2023                 [Page 11]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
 
    [RFC4422]  Melnikov, A., Ed. and K. Zeilenga, Ed., "Simple
               Authentication and Security Layer (SASL)", RFC 4422,
@@ -557,4 +640,33 @@ Author's Address
 
 
 
-Hanson                    Expires 22 June 2023                 [Page 10]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hanson                    Expires 22 June 2023                 [Page 12]
