@@ -350,6 +350,20 @@ grant_type=password&username=johndoe&password=A3ddj3w
   login_hint=%2B1%20%28310%29%20123-4567&scope=profile
 ]]></artwork>
           </figure>
+          
+          <t>The authorization server MUST:</t>
+          
+          <ul>
+            <li>require client authentication for confidential clients or for
+              any client that was issued client credentials (or with other
+              authentication requirements),</li>
+                
+            <li>authenticate the client if client authentication is
+              included,</li>
+            
+            <li>process the login hint provided to determine if the hint is
+              valid and if it corresponds to a valid user.</li>
+          </ul>
         </section>
         
         <section>
