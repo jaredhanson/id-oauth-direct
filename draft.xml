@@ -453,6 +453,26 @@ grant_type=password&username=johndoe&password=A3ddj3w
   }
 ]]></artwork>
           </figure>
+          
+          <t>If the authorization request failed, the authorization server
+            responds with an error response as described in
+            <xref target="RFC6749" section="5.2">OAuth 2.0</xref>.</t>
+            
+          <t>In addition to the error codes defined in
+            <xref target="RFC6749" section="5.2">OAuth 2.0</xref>, the following
+            error codes are specified for use in authorization challenge
+            endpoint responses:</t>
+            
+          <dl newline="true">
+            <dt>unknown_user_id</dt>
+            <dd>The authorization server is not able to identify which end-user
+              the client wishes to be authorized by means of the hint provided
+              in the request (login_hint).</dd>
+            
+            <dt>unsupported_channel</dt>
+            <dd>The out-of-band channel is not supported by the authorization
+              server.</dd>
+          </dl>
         </section>
         
         <section>

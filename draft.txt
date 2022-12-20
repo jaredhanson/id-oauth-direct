@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                     J. Hanson
 Internet-Draft                                                      Okta
-Intended status: Standards Track                        19 December 2022
-Expires: 22 June 2023
+Intended status: Standards Track                        20 December 2022
+Expires: 23 June 2023
 
 
                     OAuth 2.0 Direct Authentication
@@ -31,7 +31,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 June 2023.
+   This Internet-Draft will expire on 23 June 2023.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 1]
+Hanson                    Expires 23 June 2023                  [Page 1]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -76,11 +76,11 @@ Table of Contents
        3.2.2.  Authorization Response  . . . . . . . . . . . . . . .   8
        3.2.3.  User Interaction  . . . . . . . . . . . . . . . . . .  10
        3.2.4.  Access Token Request  . . . . . . . . . . . . . . . .  10
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
    6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
      6.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
-     6.2.  Informative References  . . . . . . . . . . . . . . . . .  11
+     6.2.  Informative References  . . . . . . . . . . . . . . . . .  12
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 2]
+Hanson                    Expires 23 June 2023                  [Page 2]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -165,7 +165,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 3]
+Hanson                    Expires 23 June 2023                  [Page 3]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -221,7 +221,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 4]
+Hanson                    Expires 23 June 2023                  [Page 4]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -277,7 +277,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 5]
+Hanson                    Expires 23 June 2023                  [Page 5]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -333,7 +333,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 6]
+Hanson                    Expires 23 June 2023                  [Page 6]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -389,7 +389,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 7]
+Hanson                    Expires 23 June 2023                  [Page 7]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -445,7 +445,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 8]
+Hanson                    Expires 23 June 2023                  [Page 8]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -501,7 +501,7 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
 
 
-Hanson                    Expires 22 June 2023                  [Page 9]
+Hanson                    Expires 23 June 2023                  [Page 9]
 
 Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
 
@@ -517,6 +517,23 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
        "expires_in":300,
        "interval":5
      }
+
+   If the authorization request failed, the authorization server
+   responds with an error response as described in Section 5.2 of OAuth
+   2.0 [RFC6749].
+
+   In addition to the error codes defined in Section 5.2 of OAuth 2.0
+   [RFC6749], the following error codes are specified for use in
+   authorization challenge endpoint responses:
+
+   unknown_user_id
+      The authorization server is not able to identify which end-user
+      the client wishes to be authorized by means of the hint provided
+      in the request (login_hint).
+
+   unsupported_channel
+      The out-of-band channel is not supported by the authorization
+      server.
 
 3.2.3.  User Interaction
 
@@ -534,6 +551,16 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
    oob_code
       REQUIRED.  The out-of-band transaction code, "oob_code" from the
       authorization challenge, defined in...
+
+
+
+
+
+
+Hanson                    Expires 23 June 2023                 [Page 10]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
 
    binding_code
       REQUIRED, if the binding method of the authorization challenge
@@ -553,14 +580,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
    if a client support authorization_code, it shouldn't use direct
    auth).  See: https://www.rfc-editor.org/rfc/rfc7591.html 4th
    paragraph of security concerns
-
-
-
-
-Hanson                    Expires 22 June 2023                 [Page 10]
-
-Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
-
 
 5.  IANA Considerations
 
@@ -589,6 +608,16 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
               Protocol", RFC 7592, DOI 10.17487/RFC7592, July 2015,
               <https://www.rfc-editor.org/info/rfc7592>.
 
+
+
+
+
+
+Hanson                    Expires 23 June 2023                 [Page 11]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
+
    [RFC8259]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
               Interchange Format", STD 90, RFC 8259,
               DOI 10.17487/RFC8259, December 2017,
@@ -607,16 +636,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
               topics-21, 27 September 2022,
               <https://www.ietf.org/archive/id/draft-ietf-oauth-
               security-topics-21.txt>.
-
-
-
-
-
-
-Hanson                    Expires 22 June 2023                 [Page 11]
-
-Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
-
 
    [RFC4422]  Melnikov, A., Ed. and K. Zeilenga, Ed., "Simple
               Authentication and Security Layer (SASL)", RFC 4422,
@@ -650,23 +669,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hanson                    Expires 22 June 2023                 [Page 12]
+Hanson                    Expires 23 June 2023                 [Page 12]
