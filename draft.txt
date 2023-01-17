@@ -571,6 +571,23 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
       authorization server as described in Section 3.2.1 of OAuth 2.0
       [RFC6749].
 
+   If the client type is confidential or the client was issued client
+   credentials (or assigned other authentication requirements), the
+   client MUST authenticate with the authorization server as described
+   in Section 3.2.1 of OAuth 2.0 [RFC6749].
+
+   For example, the client makes the following HTTP request using
+   transport-layer security (with extra line breaks for display purposes
+   only):
+
+     POST /token HTTP/1.1
+     Host: server.example.com
+     Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+     Content-Type: application/x-www-form-urlencoded
+
+     grant_type=urn%3Aokta%3Aparams%3Aoauth%3Agrant-type%3Aotp
+     &username=johndoe&otp=123456
+
 4.  Security Considerations
 
    This document should not affect the security of the Internet.
@@ -593,6 +610,14 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/info/rfc6749>.
 
+
+
+
+Hanson                    Expires 23 June 2023                 [Page 11]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
+
    [RFC8414]  Jones, M., Sakimura, N., and J. Bradley, "OAuth 2.0
               Authorization Server Metadata", RFC 8414,
               DOI 10.17487/RFC8414, June 2018,
@@ -607,16 +632,6 @@ Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
               "OAuth 2.0 Dynamic Client Registration Management
               Protocol", RFC 7592, DOI 10.17487/RFC7592, July 2015,
               <https://www.rfc-editor.org/info/rfc7592>.
-
-
-
-
-
-
-Hanson                    Expires 23 June 2023                 [Page 11]
-
-Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
-
 
    [RFC8259]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
               Interchange Format", STD 90, RFC 8259,
@@ -651,6 +666,14 @@ Author's Address
    100 First Street
    San Francisco, CA 94105
    United States of America
+
+
+
+Hanson                    Expires 23 June 2023                 [Page 12]
+
+Internet-Draft       OAuth 2.0 Direct Authentication       December 2022
+
+
    Email: jared.hanson@okta.com
    URI:   https://www.jaredhanson.me/
 
@@ -669,4 +692,37 @@ Author's Address
 
 
 
-Hanson                    Expires 23 June 2023                 [Page 12]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hanson                    Expires 23 June 2023                 [Page 13]
