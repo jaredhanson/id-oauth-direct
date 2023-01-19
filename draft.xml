@@ -100,6 +100,8 @@
         authenticaiton allows the client to perform authentication directly</t>
     </section>
     
+    
+    <!-- TODO: Move this section to MFA doc -->
     <section>
       <name>Capability Negotiation</name>
       
