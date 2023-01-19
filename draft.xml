@@ -128,6 +128,8 @@
       <section>
         <name>Client Capabilities</name>
         
+          <!-- TODO: Explain rationale for token extensions vs dynamic reg - especially for public clients -->
+        
           <section>
             <name>Dynamic Registration</name>
             
@@ -366,7 +368,7 @@ grant_type=password&username=johndoe&password=A3ddj3w
           </ul>
         </section>
         
-        <section>
+        <section anchor="oob-authorization-response">
           <name>Authorization Response</name>
           
           <t>If the authorization request is valid, the authorization server
@@ -494,11 +496,12 @@ grant_type=password&username=johndoe&password=A3ddj3w
             
             <dt>oob_code</dt>
             <dd>REQUIRED.  The out-of-band transaction code, "oob_code" from
-              the authorization challenge, defined in...</dd>
+              the authorization response, defined in <xref target="oob-authorization-response"/>.</dd>
             
             <dt>binding_code</dt>
-            <dd>REQUIRED, if the binding method of the authorization challenge
-              defined in....</dd>
+            <dd>REQUIRED, if the binding method of the authorization response
+              defined in <xref target="oob-authorization-response"/> is set to
+              <tt>"prompt"</tt></dd>
           
             <dt>client_id</dt>
             <dd>REQUIRED, if the client is not authenticating with the
@@ -514,7 +517,7 @@ grant_type=password&username=johndoe&password=A3ddj3w
           <t>For example, the client makes the following HTTP request using
             transport-layer security (with extra line breaks for display
             purposes only):</t>
-      
+            
           <figure>
             <artwork><![CDATA[
   POST /token HTTP/1.1
@@ -522,8 +525,9 @@ grant_type=password&username=johndoe&password=A3ddj3w
   Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
   Content-Type: application/x-www-form-urlencoded
 
-  grant_type=urn%3Aokta%3Aparams%3Aoauth%3Agrant-type%3Aotp
-  &username=johndoe&otp=123456
+  grant_type=urn%3Aokta%3Aparams%3Aoauth%3Agrant-type%3Aoob
+  &oob_code=GmRhmhcxhwAzkoEqiMEg_DnyEysNkuNhszIySk9eS
+  &binding_code=123456
 ]]></artwork>
           </figure>
           
